@@ -47,3 +47,5 @@ else
     echo "rvm is already installed"
 fi
 
+"$chef_binary" -c solo.rb -j solo.json
+
