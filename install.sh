@@ -7,8 +7,9 @@ source ~/.bash_profile
 chef_binary=/usr/bin/chef-client
 chef_binary=/usr/local/rvm
 
+export DEBIAN_FRONTEND=noninteractive
+
 if ! test -f "$chef_binary"; then
-    export DEBIAN_FRONTEND=noninteractive
     # Upgrade headlessly (this is only safe-ish on vanilla systems)
     echo "Updating aptitude repositories"
     sudo apt-get update
@@ -32,7 +33,6 @@ if ! test -f "$rvm_binary"; then
     curl -L https://get.rvm.io | bash -s stable
     echo "rvm has been installed successfully"
 
-    #source ~/.rvm/scripts/rvm
     source /etc/profile.d/rvm.sh
     rvm requirements
     rvm install 1.9.3
