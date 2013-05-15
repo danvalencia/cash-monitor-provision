@@ -8,7 +8,7 @@ host="${1:-ubuntu@ec2-54-244-211-10.us-west-2.compute.amazonaws.com}"
 # we remove (-R) the old host key from known_hosts
 ssh-keygen -R "${host#*@}" 2> /dev/null
 
-tar cj . | ssh -o 'StrictHostKeyChecking no' "$host" '
+tar cj . | ssh -t -o 'StrictHostKeyChecking no' "$host" '
 sudo rm -rf ~/chef &&
 mkdir ~/chef &&
 cd ~/chef &&
