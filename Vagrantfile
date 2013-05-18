@@ -1,8 +1,12 @@
 Vagrant.configure("2") do |config|
+
   config.vm.box = "maquinet"
 
   config.berkshelf.enabled = true
   
+  config.vm.provider :vmware_fusion do |v, override|
+    override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
+  end
 
   config.vm.provider :aws do |aws, override|
     aws.access_key_id = ENV["AWS_ACCESS_KEY"]
@@ -33,6 +37,7 @@ SCRIPT
     chef.add_role "maquinet-server" 
     chef.json = {
       rvm: {
+        default_ruby: "ruby-1.9.3-p327",
         vagrant: {
           user: "ubuntu",
           system_chef_solo: "/usr/bin/chef-solo"
