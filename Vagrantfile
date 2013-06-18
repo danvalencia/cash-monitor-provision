@@ -3,6 +3,9 @@ Vagrant.configure("2") do |config|
   config.vm.box = "maquinet"
 
   config.berkshelf.enabled = true
+  #config.ssh.username = "ubuntu"
+
+  vagrant_user = "vagrant"
   
   config.vm.provider :vmware_fusion do |v, override|
     override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
@@ -20,6 +23,7 @@ Vagrant.configure("2") do |config|
     aws.security_groups = [ "quick-start-1" ]
 
     override.ssh.username = "ubuntu"
+    vagrant_user = "ubuntu"
     override.ssh.private_key_path = "~/.ssh/keys/maquinet-server.pem"
 
   end
@@ -39,9 +43,14 @@ SCRIPT
       rvm: {
         default_ruby: "ruby-1.9.3-p327",
         vagrant: {
-          user: "ubuntu",
+          user: vagrant_user,
           system_chef_solo: "/usr/bin/chef-solo"
         }
+      },
+      mysql: {
+        server_root_password: "m4qu1n3t",
+        server_repl_password: "m4qu1n3t",
+        server_debian_password: "m4qu1n3t"
       }
     }
   end
