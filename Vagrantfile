@@ -6,8 +6,11 @@ Vagrant.configure("2") do |config|
   #config.ssh.username = "ubuntu"
 
   vagrant_user = "vagrant"
-  
-  config.vm.provider :vmware_fusion do |v, override|
+
+  config.vm.synced_folder "~/workspace/maquinet/cash-monitor", "/home/vagrant/cash-monitor"
+  config.vm.network :forwarded_port, guest: 3000, host: 3000
+
+  config.vm.provider :vmware_fusion do |vmware, override|
     override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
   end
 
@@ -44,7 +47,7 @@ SCRIPT
         default_ruby: "ruby-1.9.3-p327",
         vagrant: {
           user: vagrant_user,
-          system_chef_solo: "/usr/bin/chef-solo"
+          system_chef_solo: "/opt/ruby/bin/chef-solo"
         }
       },
       mysql: {
