@@ -15,7 +15,8 @@ Vagrant.configure("2") do |config|
   config.berkshelf.enabled = true
   
   config.vm.synced_folder "~/workspace/maquinet/cash-monitor", "/home/vagrant/cash-monitor"
-  config.vm.network :forwarded_port, guest: 3000, host: 3000
+  config.vm.network :forwarded_port, guest: 8080, host: 8080
+  config.vm.network :forwarded_port, guest: 80, host: 8000
 
   config.vm.provider :vmware_fusion do |vmware, override|
     override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
