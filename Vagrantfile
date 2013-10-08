@@ -1,12 +1,19 @@
 Vagrant.configure("2") do |config|
 
+  system_chef_solo = "/opt/ruby/bin/chef-solo"
+  vagrant_user = "vagrant"
+
+  if ARGV.size == 3
+    if ARGV[2] == "aws"
+      system_chef_solo = "/opt/chef/bin/chef-solo"
+      vagrant_user = "ubuntu"
+    end
+  end
+
   config.vm.box = "maquinet"
 
   config.berkshelf.enabled = true
-  #config.ssh.username = "ubuntu"
-
-  vagrant_user = "vagrant"
-
+  
   config.vm.synced_folder "~/workspace/maquinet/cash-monitor", "/home/vagrant/cash-monitor"
   config.vm.network :forwarded_port, guest: 3000, host: 3000
 
@@ -26,9 +33,7 @@ Vagrant.configure("2") do |config|
     aws.security_groups = [ "quick-start-1" ]
 
     override.ssh.username = "ubuntu"
-    vagrant_user = "ubuntu"
     override.ssh.private_key_path = "~/.ssh/keys/maquinet-server.pem"
-
   end
 
   provision_script= <<SCRIPT
@@ -46,8 +51,8 @@ SCRIPT
       rvm: {
         default_ruby: "ruby-1.9.3-p327",
         vagrant: {
-          user: vagrant_user,
-          system_chef_solo: "/opt/ruby/bin/chef-solo"
+          user: vagrant_user, 
+          system_chef_solo: system_chef_solo
         }
       },
       mysql: {
